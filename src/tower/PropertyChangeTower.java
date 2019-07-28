@@ -10,6 +10,10 @@ public interface PropertyChangeTower {
 	
 	String PROPERTY_FORECAST = "incoming request for forecast";
 	
+	String PROPERTY_STATUS = "incoming request for sensor status";
+	
+	String PROPERTY_STATUS_RETURN = "sensor status";
+	
 	/**
      * Add a PropertyChangeListener to the listener list. The listener is registered for 
      * all properties. The same listener object may be added more than once, and will be 

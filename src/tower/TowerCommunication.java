@@ -1,11 +1,16 @@
 package tower;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import javax.swing.Timer;
+
 public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
 	
+	private WeatherData myRecentData;
 	private final TowerForecast myForecast;
 	
 	/**
@@ -48,9 +53,12 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
 	@Override
 	public void propertyChange(PropertyChangeEvent theEvent) {
 		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
+			myRecentData = (WeatherData) theEvent.getNewValue();
 			myPcs.firePropertyChange(PROPERTY_WEATHER, null, theEvent.getNewValue());
         } else if (PROPERTY_FORECAST.equals(theEvent.getPropertyName())) {
         	myPcs.firePropertyChange(PROPERTY_FORECAST, null, myForecast.getWeatherForecast());
+        } else if (PROPERTY_STATUS.equals(theEvent.getPropertyName())) {
+        	myPcs.firePropertyChange(PROPERTY_STATUS_RETURN, null, myRecentData.getSensorStatus());
         }
 		
 	}
