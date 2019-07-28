@@ -1,4 +1,4 @@
-package src;
+package tower;
 
 import java.util.Random;
 import java.util.stream.Collectors;

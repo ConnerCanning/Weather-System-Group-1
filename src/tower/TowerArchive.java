@@ -1,4 +1,4 @@
-package src;
+package tower;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -12,6 +12,8 @@ import java.io.PrintStream;
 public class TowerArchive implements PropertyChangeListener {
 	private PrintStream output;
 	
+	String PROPERTY_WEATHER = "incoming weather data";
+	
 	public TowerArchive(PrintStream thePrintStream) {
 		output = thePrintStream;
 	}
@@ -21,13 +23,16 @@ public class TowerArchive implements PropertyChangeListener {
 	}
 	
 	
-	public void giveWeather(WeatherData data) {
+	private void giveWeather(WeatherData data) {
 		output.println(data);
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
+	public void propertyChange(PropertyChangeEvent theEvent) {
+		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
+            giveWeather((WeatherData) theEvent.getNewValue());
+            
+        }
 		
 	}
 }

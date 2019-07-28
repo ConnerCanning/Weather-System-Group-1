@@ -1,4 +1,4 @@
-package src;
+package tower;
 
 import java.beans.PropertyChangeListener;
 
@@ -7,6 +7,8 @@ public interface PropertyChangeTower {
      * Add your own constant Property values here. 
      */
 	String PROPERTY_WEATHER = "incoming weather data";
+	
+	String PROPERTY_FORECAST = "incoming request for forecast";
 	
 	/**
      * Add a PropertyChangeListener to the listener list. The listener is registered for 

@@ -1,4 +1,4 @@
-package src;
+package tower;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -6,6 +6,7 @@ import java.beans.PropertyChangeSupport;
 
 public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
 	
+	private final TowerForecast myForecast;
 	
 	/**
      * Manager for Property Change Listeners.
@@ -15,6 +16,7 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
     public TowerCommunication() {
     	myPcs = new PropertyChangeSupport(this);
     	final TowerArchive archive = new TowerArchive();
+    	myForecast = new TowerForecast();
     	this.addPropertyChangeListener(archive);
     }
     
@@ -44,8 +46,12 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
 
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
+	public void propertyChange(PropertyChangeEvent theEvent) {
+		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
+			myPcs.firePropertyChange(PROPERTY_WEATHER, null, theEvent.getNewValue());
+        } else if (PROPERTY_FORECAST.equals(theEvent.getPropertyName())) {
+        	myPcs.firePropertyChange(PROPERTY_FORECAST, null, myForecast.getWeatherForecast());
+        }
 		
 	}
     
