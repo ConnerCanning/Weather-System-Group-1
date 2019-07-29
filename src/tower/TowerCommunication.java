@@ -1,7 +1,6 @@
 package tower;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -10,7 +9,14 @@ import javax.swing.Timer;
 
 public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
 	
+	/** Amount of milliseconds between each call to the timer. */
+    private static final int TIMER_FREQUENCY = 31; 
+	
 	private WeatherData myRecentData;
+	private Timer myTimer;
+	private final TimeControls myTime;
+    
+	
 	private final TowerForecast myForecast;
 	
 	/**
@@ -20,9 +26,20 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
     
     public TowerCommunication() {
     	myPcs = new PropertyChangeSupport(this);
+    	myTime = new Time();
+    	myTimer = new Timer(TIMER_FREQUENCY, this::handleTimer);
+    	myTimer.start();
     	final TowerArchive archive = new TowerArchive();
     	myForecast = new TowerForecast();
     	this.addPropertyChangeListener(archive);
+    }
+    
+    /**
+     * Event handler for the timer. 
+     * @param theEvent the fired event
+     */
+    private void handleTimer(final ActionEvent theEvent) { //NOPMD
+        myTime.advance(TIMER_FREQUENCY);
     }
     
 
