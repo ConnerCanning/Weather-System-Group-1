@@ -1,5 +1,4 @@
 package tower;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.PrintStream;
@@ -23,7 +22,7 @@ public class TowerArchive implements PropertyChangeListener {
 	}
 	
 	
-	private void giveWeather(WeatherData data) {
+	public void giveWeather(WeatherData data) {
 		output.println(data);
 	}
 

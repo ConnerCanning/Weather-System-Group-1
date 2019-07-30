@@ -1,13 +1,15 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class StatusReporterTest {
+public class StatusReporterTest {
 
 	@Test
-	void testStatusReporterIsOn() {
-		StatusReporter reporter = null; //instantiate new status reporter when it exists
-		assertTrue(reporter.getStatus());
+	void test() {
+
+		SensorCommunication sensor;
+		StatusReporter statusReporter = sensor; // instantiate new status reporter when it exists
+		assertTrue(statusReporter.getStatus());
 	}
 
 }

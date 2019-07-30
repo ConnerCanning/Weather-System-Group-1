@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.PrintStream;
 
 import javax.swing.Timer;
 
@@ -30,6 +31,17 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
     	myTimer = new Timer(TIMER_FREQUENCY, this::handleTimer);
     	myTimer.start();
     	final TowerArchive archive = new TowerArchive();
+    	myForecast = new TowerForecast();
+    	this.addPropertyChangeListener(archive);
+    }
+    
+    // Added overloaded constructor for testing purposes to pass PrintStream to TowerArchive
+    public TowerCommunication(PrintStream output) {
+    	myPcs = new PropertyChangeSupport(this);
+    	myTime = new Time();
+    	myTimer = new Timer(TIMER_FREQUENCY, this::handleTimer);
+    	myTimer.start();
+    	final TowerArchive archive = new TowerArchive(output);
     	myForecast = new TowerForecast();
     	this.addPropertyChangeListener(archive);
     }

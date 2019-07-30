@@ -1,7 +1,9 @@
 
+
+import tower.WeatherData;
+
 public interface WeatherConsumer {
 
-	
-	
-	public void giveWeather();
+
+	public void giveWeather(WeatherData weatherData);
 }
