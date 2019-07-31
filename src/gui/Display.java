@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
+import sensor.WeatherData;
+
 public class Display extends JFrame implements PropertyChangeListener {
  /**
 	 * 
@@ -28,7 +30,7 @@ public class Display extends JFrame implements PropertyChangeListener {
 	public static JLabel label;
 	public static JLabel time;
 	
-	Display()  {
+	public Display()  {
 		super("Weather Station");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width/2, screenSize.height/2);

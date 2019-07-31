@@ -1,26 +1,21 @@
 package tower;
 
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 
-import javax.swing.Timer;
-
-import sensor.WeatherData;
+import gui.Display;
 
 public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
 	
-	/** Amount of milliseconds between each call to the timer. */
-    private static final int TIMER_FREQUENCY = 31; 
-	
-	private WeatherData myRecentData;
-	private Timer myTimer;
-	private final TimeControls myTime;
+    
+	private final Display myDisplay;
     
 	
 	private final TowerForecast myForecast;
+	
+	private final TowerArchive myArchive;
 	
 	/**
      * Manager for Property Change Listeners.
@@ -29,31 +24,22 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
     
     public TowerCommunication() {
     	myPcs = new PropertyChangeSupport(this);
-    	myTime = new Time();
-    	myTimer = new Timer(TIMER_FREQUENCY, this::handleTimer);
-    	myTimer.start();
-    	final TowerArchive archive = new TowerArchive();
+    	
+    	myArchive = new TowerArchive();
+    	myDisplay = new Display();
     	myForecast = new TowerForecast();
-    	this.addPropertyChangeListener(archive);
+    	this.addPropertyChangeListener(myArchive);
+    	this.addPropertyChangeListener(myDisplay);
     }
     
     // Added overloaded constructor for testing purposes to pass PrintStream to TowerArchive
     public TowerCommunication(PrintStream output) {
     	myPcs = new PropertyChangeSupport(this);
-    	myTime = new Time();
-    	myTimer = new Timer(TIMER_FREQUENCY, this::handleTimer);
-    	myTimer.start();
-    	final TowerArchive archive = new TowerArchive(output);
+    	myArchive = new TowerArchive(output);
+    	myDisplay = new Display();
     	myForecast = new TowerForecast();
-    	this.addPropertyChangeListener(archive);
-    }
-    
-    /**
-     * Event handler for the timer. 
-     * @param theEvent the fired event
-     */
-    private void handleTimer(final ActionEvent theEvent) { //NOPMD
-        myTime.advance(TIMER_FREQUENCY);
+    	this.addPropertyChangeListener(myArchive);
+    	this.addPropertyChangeListener(myDisplay);
     }
     
 
@@ -84,7 +70,6 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
 	@Override
 	public void propertyChange(PropertyChangeEvent theEvent) {
 		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
-			myRecentData = (WeatherData) theEvent.getNewValue();
 			myPcs.firePropertyChange(PROPERTY_WEATHER, null, theEvent.getNewValue());
         } else if (PROPERTY_FORECAST.equals(theEvent.getPropertyName())) {
         	myPcs.firePropertyChange(PROPERTY_FORECAST, null, myForecast.getWeatherForecast());
