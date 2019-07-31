@@ -23,7 +23,11 @@ public class TowerArchive implements PropertyChangeListener {
 	
 	
 	public void giveWeather(WeatherData data) {
-		output.println(data);
+		output.print(data.rawValues[0]);
+		for (int i = 1; i < data.rawValues.length; i++) {
+			output.print(", " + data.rawValues[i]);
+			
+		}
 	}
 
 	@Override
