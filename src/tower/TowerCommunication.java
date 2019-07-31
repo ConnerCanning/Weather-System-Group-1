@@ -86,8 +86,6 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
 			myPcs.firePropertyChange(PROPERTY_WEATHER, null, theEvent.getNewValue());
         } else if (PROPERTY_FORECAST.equals(theEvent.getPropertyName())) {
         	myPcs.firePropertyChange(PROPERTY_FORECAST, null, myForecast.getWeatherForecast());
-        } else if (PROPERTY_STATUS.equals(theEvent.getPropertyName())) {
-        	myPcs.firePropertyChange(PROPERTY_STATUS_RETURN, null, myRecentData.getSensorStatus());
         }
 		
 	}
