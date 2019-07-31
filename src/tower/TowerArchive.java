@@ -3,6 +3,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.PrintStream;
 
+import sensor.WeatherData;
+
 /**
  * Represents Tower Archive.  
  * @author Justin

@@ -1,4 +1,5 @@
-package tower;
+package sensor;
+
 
 public class WeatherData {
 

@@ -6,8 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Scanner;
 import org.junit.jupiter.api.Test;
+
+import sensor.WeatherData;
 import tower.TowerArchive;
-import tower.WeatherData;
 
 
 //This test will run if Justin changes his method to public and implements the WeatherConsumer interface.

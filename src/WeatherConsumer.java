@@ -1,6 +1,4 @@
-
-
-import tower.WeatherData;
+import sensor.WeatherData;
 
 public interface WeatherConsumer {
 

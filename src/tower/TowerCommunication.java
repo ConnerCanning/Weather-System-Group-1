@@ -8,6 +8,8 @@ import java.io.PrintStream;
 
 import javax.swing.Timer;
 
+import sensor.WeatherData;
+
 public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
 	
 	/** Amount of milliseconds between each call to the timer. */

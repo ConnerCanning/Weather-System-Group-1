@@ -10,6 +10,8 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import sensor.WeatherData;
+
 public class TowerArchiveTest {
 	
 	public static final String PROPERTY_WEATHER = "incoming weather data";
