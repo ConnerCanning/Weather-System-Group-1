@@ -1,0 +1,208 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+
+public class Display extends JFrame implements PropertyChangeListener {
+ /**
+	 * 
+	 */
+	private static final long serialVersionUID = 34683579683748L;
+	
+	
+	public static WeatherData object = new WeatherData(WeatherData.temp, WeatherData.rainAmount, WeatherData.humidity, WeatherData.windSpeed, WeatherData.windDirection, WeatherData.sensorStatus);
+	public static JLabel label;
+	public static JLabel time;
+	
+	Display()  {
+		super("Weather Station");
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(screenSize.width/2, screenSize.height/2);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		object.pcs.addPropertyChangeListener(this);
+		try {
+			UIManager.setLookAndFeel(new MetalLookAndFeel());
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	void start() throws UnsupportedLookAndFeelException {
+		Display frame = new Display();
+		JPanel panel = new JPanel();
+		label = new JLabel();
+		time = new JLabel();
+		JButton onButton = new JButton("On");
+		JButton offButton = new JButton("Off");
+		ButtonGroup bg = new ButtonGroup();
+		bg.add(onButton);
+		bg.add(offButton);
+		panel.add(onButton);
+		panel.add(offButton);
+		panel.add(label);
+		panel.add(time);
+		add(panel, BorderLayout.CENTER);
+		add(onButton, BorderLayout.SOUTH);
+		add(offButton, BorderLayout.SOUTH);
+		frame.add(panel);
+		onButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				label.setText(object.toString());
+				WeatherData.sensorStatus = true;
+			}
+		});
+		offButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				label.setText("");
+				WeatherData.sensorStatus = false;
+			}
+		});
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (WeatherData.getSensorStatus() == true) {
+			/* timer.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent evt) {
+					label.setText(WeatherData.toString());
+				}
+			}); */
+			WeatherData.timer.start();
+		}
+		else {
+			WeatherData.timer.stop();
+			label.setText("Sensor is off");
+		}
+	} 
+	
+}
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Arrays;
+import javax.swing.Timer;
+
+public class WeatherData {
+	public static double temp;
+	public static double rainAmount;
+	public static double humidity;
+	public static int windSpeed;
+	public static char windDirection;
+	public static int[] rawValues;
+	public static boolean sensorStatus;
+	public static Timer timer;
+	public PropertyChangeSupport pcs = new PropertyChangeSupport(new Display());
+	
+	private static String delimiter = ", ";
+	
+	public WeatherData(double theTemp, double theRainAmount, double theHumidity,
+			int theWindSpeed, char theWindDirection, boolean theSensorStatus) {
+		temp = theTemp;
+		rainAmount = theRainAmount;
+		humidity = theHumidity;
+		windSpeed = theWindSpeed;
+		windDirection = theWindDirection;
+		sensorStatus = theSensorStatus;
+		rawValues = new int[6];
+		rawValues[0] = (int) theTemp;
+		rawValues[1] = (int) theRainAmount;
+		rawValues[2] = (int) theHumidity;
+		rawValues[3] = (int) theWindSpeed;
+		rawValues[4] = (int) theWindDirection;
+		if (theSensorStatus) {
+			rawValues[5] = 1;
+		} else {
+			rawValues[5] = 0;
+		}
+		int delay = 1000;
+		timer = new Timer(delay, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				Display.label.setText(Display.object.toString());
+			}});
+		timer.start();
+	}
+	
+	public double getTemp() {
+		return temp;
+	}
+	
+	public double getRainAmount() {
+		return rainAmount;
+	}
+	
+	public double getHumidity() {
+		return humidity;
+	}
+	
+	public int getWindSpeed() {
+		return windSpeed;
+	}
+	
+	public char getWindDirection() {
+		return windDirection;
+	}
+	
+	public static boolean getSensorStatus() {
+		return sensorStatus;
+	}
+	
+	public int[] getRawValues() {
+		return Arrays.copyOf(rawValues, rawValues.length);
+	}
+	
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder(64);
+		sb.append("Temperature: " + temp);
+		sb.append(delimiter);
+		sb.append("Rain Fall: " + rainAmount);
+		sb.append(delimiter);
+		sb.append("Humidity: " + humidity);
+		sb.append(delimiter);
+		sb.append("Wind speed: " + windSpeed);
+		sb.append(delimiter);
+		sb.append("Wind direction: " + windDirection);
+		sb.append(delimiter);
+		sb.append(sensorStatus);
+		return sb.toString();
+	}
+	
+	/**
+	 * Returns an alternative String representation of the weather data using
+	 * raw data
+	 * @return a String representation of raw weather data
+	 */
+	private String rawValues() {
+		StringBuilder sb = new StringBuilder(64);
+		for (int i = 0; i < rawValues.length; i++) {
+			sb.append(rawValues[i]);
+			sb.append(delimiter);
+			
+		}
+		return sb.toString();
+	}
+	
+	public void firePropertyChange() {
+		pcs.firePropertyChange("update", null, WeatherData.rawValues);
+	}
+	
+}
