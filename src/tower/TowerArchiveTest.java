@@ -6,6 +6,7 @@ import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import org.junit.Test;
@@ -23,15 +24,18 @@ public class TowerArchiveTest {
 		
 		TowerArchive tower = new TowerArchive(output);
 		
+
 		double temp = 73.5;
 		double rainAmount = 1.2;
 		double humidity = 33.2;
-		int windSpeed = 12;
-		char windDirection = 'N';
-		boolean sensorStatus = true;
+		double windSpeed = 12.0;
+		char windDirection = 's';
+		double[] raw = {temp, rainAmount, humidity, windSpeed, windDirection} ; 
 		
-		WeatherData weather = new WeatherData(temp, rainAmount, humidity, 
-				windSpeed, windDirection, sensorStatus);
+		
+		
+		WeatherData weather = new WeatherData(temp, humidity, rainAmount,
+				windSpeed, windDirection, raw);
 		PropertyChangeEvent event = new PropertyChangeEvent("source", PROPERTY_WEATHER, null, weather);
 		
 		tower.propertyChange(event); // should trigger write to output
@@ -40,7 +44,7 @@ public class TowerArchiveTest {
 		
 		try {
 			Scanner input = new Scanner(new File(outputFileName));
-			assertEquals(weather.toString(), input.nextLine());
+			assertEquals(Arrays.toString(raw).replace("[", "").replace("]", ""), input.nextLine());
 			
 			input.close();
 		} catch (FileNotFoundException e) {

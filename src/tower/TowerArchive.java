@@ -10,7 +10,7 @@ import sensor.WeatherData;
  * @author Justin
  *
  */
-public class TowerArchive implements PropertyChangeListener {
+public class TowerArchive implements PropertyChangeListener{
 	private PrintStream output;
 	
 	String PROPERTY_WEATHER = "incoming weather data";
