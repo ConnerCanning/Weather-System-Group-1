@@ -1,6 +1,4 @@
 package tower;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -12,10 +10,8 @@ import sensor.WeatherData;
  * @author Justin
  *
  */
-public class TowerArchive implements PropertyChangeListener{
+public class TowerArchive {
 	private PrintStream output;
-	
-	String PROPERTY_WEATHER = "incoming weather data";
 	
 	public TowerArchive(PrintStream thePrintStream) {
 		output = thePrintStream;
@@ -41,13 +37,5 @@ public class TowerArchive implements PropertyChangeListener{
 			
 		}
 	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent theEvent) {
-		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
-            giveWeather((WeatherData) theEvent.getNewValue());
-            
-        }
-		
-	}
+	
 }
