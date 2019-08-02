@@ -1,3 +1,5 @@
+package tower;
+
 import sensor.WeatherData;
 
 public interface WeatherConsumer {
