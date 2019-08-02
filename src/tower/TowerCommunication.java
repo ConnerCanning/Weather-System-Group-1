@@ -6,11 +6,12 @@ import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 
 import gui.Display;
+import sensor.WeatherData;
 
-public class TowerCommunication implements PropertyChangeTower, PropertyChangeListener {
+public class TowerCommunication {
 	
     
-	private final Display myDisplay;
+	private final DisplayCommunication myDisplay;
     
 	
 	private final TowerForecast myForecast;
@@ -26,56 +27,24 @@ public class TowerCommunication implements PropertyChangeTower, PropertyChangeLi
     	myPcs = new PropertyChangeSupport(this);
     	
     	myArchive = new TowerArchive();
-    	myDisplay = new Display();
+    	myDisplay = new DisplayCommunication();
     	myForecast = new TowerForecast();
-    	this.addPropertyChangeListener(myArchive);
-    	this.addPropertyChangeListener(myDisplay);
     }
     
     // Added overloaded constructor for testing purposes to pass PrintStream to TowerArchive
     public TowerCommunication(PrintStream output) {
     	myPcs = new PropertyChangeSupport(this);
     	myArchive = new TowerArchive(output);
-    	myDisplay = new Display();
+    	myDisplay = new DisplayCommunication();
     	myForecast = new TowerForecast();
-    	this.addPropertyChangeListener(myArchive);
-    	this.addPropertyChangeListener(myDisplay);
     }
     
-
-    @Override
-    public void addPropertyChangeListener(final PropertyChangeListener theListener) {
-        myPcs.addPropertyChangeListener(theListener);
-        
+    
+    public void giveWeather(WeatherData data) {
+    	myArchive.giveWeather(data);
+    	myDisplay.giveForecast(myForecast.getWeatherForecast());
     }
 
-    @Override
-    public void addPropertyChangeListener(final String thePropertyName,
-                                          final PropertyChangeListener theListener) {
-        myPcs.addPropertyChangeListener(thePropertyName, theListener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(final PropertyChangeListener theListener) {
-        myPcs.removePropertyChangeListener(theListener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(final String thePropertyName,
-                                             final PropertyChangeListener theListener) {
-        myPcs.removePropertyChangeListener(thePropertyName, theListener);
-    }
-
-
-	@Override
-	public void propertyChange(PropertyChangeEvent theEvent) {
-		if (PROPERTY_WEATHER.equals(theEvent.getPropertyName())) {
-			myPcs.firePropertyChange(PROPERTY_WEATHER, null, theEvent.getNewValue());
-        } else if (PROPERTY_FORECAST.equals(theEvent.getPropertyName())) {
-        	myPcs.firePropertyChange(PROPERTY_FORECAST, null, myForecast.getWeatherForecast());
-        }
-		
-	}
     
 
 }
