@@ -1,6 +1,8 @@
 package tower;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 import sensor.WeatherData;
@@ -20,7 +22,15 @@ public class TowerArchive implements PropertyChangeListener{
 	}
 	
 	public TowerArchive() {
-		this(System.out);
+		String outputFileName = "towerCommunicationTest.txt";
+		PrintStream theOutput;
+		try {
+			theOutput = new PrintStream(new File(outputFileName));
+			output = theOutput;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
