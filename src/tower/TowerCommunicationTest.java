@@ -21,7 +21,7 @@ public class TowerCommunicationTest {
 		String outputFileName = "towerCommunicationTest.txt";
 		PrintStream output = new PrintStream(new File(outputFileName));
 
-		TowerCommunication towerComm = new TowerCommunication(output);
+		//TowerCommunication towerComm = new TowerCommunication(output);
 
 		double temp = 73.5;
 		double rainAmount = 1.2;
@@ -33,7 +33,7 @@ public class TowerCommunicationTest {
 		WeatherData weather = new WeatherData(temp, humidity, rainAmount, windSpeed, windDirection, raw);
 		PropertyChangeEvent event = new PropertyChangeEvent("source", TowerArchiveTest.PROPERTY_WEATHER, null, weather);
 
-		towerComm.propertyChange(event); // should trigger write to output
+		//towerComm.propertyChange(event); // should trigger write to output
 
 		// now check to see if the file was written correctly
 

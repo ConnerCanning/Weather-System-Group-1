@@ -1,5 +1,6 @@
+package gui;
+
 import sensor.WeatherData;
-import tower.TowerForecast;
 
 public class DisplayCommunications {
 	

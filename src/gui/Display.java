@@ -92,20 +92,4 @@ public class Display extends JFrame {
 		forecast.setText(s);
 	}
 
-	/* @Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (WeatherData.getSensorStatus() == true) {
-			/* timer.addActionListener(new ActionListener() {
-				@Override			public void actionPerformed(ActionEvent evt) {
-					label.setText(WeatherData.toString());
-				}
-			}); 
-			WeatherData.timer.start();
-		}
-		else {
-			WeatherData.timer.stop();
-			label.setText("Sensor is off");
-		}
-	} */
-	
 }

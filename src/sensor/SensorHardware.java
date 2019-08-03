@@ -1,3 +1,5 @@
+package sensor;
+
 import java.util.Random;
 
 public class SensorHardware {

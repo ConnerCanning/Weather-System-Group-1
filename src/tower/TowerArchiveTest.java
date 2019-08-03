@@ -38,7 +38,7 @@ public class TowerArchiveTest {
 				windSpeed, windDirection, raw);
 		PropertyChangeEvent event = new PropertyChangeEvent("source", PROPERTY_WEATHER, null, weather);
 		
-		tower.propertyChange(event); // should trigger write to output
+		//tower.propertyChange(event); // should trigger write to output
 		
 		// now check to see if the file was written correctly
 		

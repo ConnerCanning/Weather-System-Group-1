@@ -1,3 +1,5 @@
+package sensor;
+
 
 public class WeatherData {
 
