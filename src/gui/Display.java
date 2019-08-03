@@ -44,7 +44,7 @@ public class Display extends JFrame {
 	}
 	
 	void start() throws UnsupportedLookAndFeelException {
-		Display frame = new Display();
+		Display frame = this;
 		JPanel panel = new JPanel();
 		label = new JLabel();
 		forecast = new JLabel();
