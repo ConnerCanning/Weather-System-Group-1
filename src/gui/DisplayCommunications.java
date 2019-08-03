@@ -1,3 +1,5 @@
+import sensor.WeatherData;
+import tower.TowerForecast;
 
 public class DisplayCommunications {
 	
@@ -20,9 +22,9 @@ public class DisplayCommunications {
 			display.label.setText("");
  	}
 	
-	public void giveForecast(TowerForecast forecast) {
+	public void giveForecast(String s) {
 		if (this.on) {
-			display.giveForecast(forecast);
+			display.giveForecast(s);
 		}
 		else
 			display.forecast.setText("");

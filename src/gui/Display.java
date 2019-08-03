@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,16 +20,15 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 
 import sensor.WeatherData;
 
-public class Display extends JFrame implements PropertyChangeListener {
+public class Display extends JFrame {
  /**
 	 * 
 	 */
 	private static final long serialVersionUID = 34683579683748L;
 	
-	
-	public static WeatherData object = new WeatherData(WeatherData.temp, WeatherData.rainAmount, WeatherData.humidity, WeatherData.windSpeed, WeatherData.windDirection, WeatherData.sensorStatus);
-	public static JLabel label;
-	public static JLabel time;
+	public DisplayCommunications displayComm = new DisplayCommunications(this);
+	public  JLabel label;
+	public  JLabel forecast;
 	
 	public Display()  {
 		super("Weather Station");
@@ -36,7 +36,6 @@ public class Display extends JFrame implements PropertyChangeListener {
 		setSize(screenSize.width/2, screenSize.height/2);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		object.pcs.addPropertyChangeListener(this);
 		try {
 			UIManager.setLookAndFeel(new MetalLookAndFeel());
 		} catch (UnsupportedLookAndFeelException e) {
@@ -48,54 +47,65 @@ public class Display extends JFrame implements PropertyChangeListener {
 		Display frame = new Display();
 		JPanel panel = new JPanel();
 		label = new JLabel();
-		time = new JLabel();
+		forecast = new JLabel();
 		JButton onButton = new JButton("On");
 		JButton offButton = new JButton("Off");
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(onButton);
 		bg.add(offButton);
+		panel.setVisible(true);
 		panel.add(onButton);
 		panel.add(offButton);
 		panel.add(label);
-		panel.add(time);
+		panel.add(forecast);
 		add(panel, BorderLayout.CENTER);
-		add(onButton, BorderLayout.SOUTH);
-		add(offButton, BorderLayout.SOUTH);
+		add(onButton);
+		add(offButton);
+		onButton.setBounds(50, 150, 50, 50);
+		onButton.setVisible(true);
+		onButton.setBackground(Color.GREEN);
+		offButton.setBounds(100, 150, 50, 50);
+		offButton.setBackground(Color.RED);
+		offButton.setVisible(true);
 		frame.add(panel);
 		onButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				label.setText(object.toString());
-				WeatherData.sensorStatus = true;
+				displayComm.onOffSensor(true);
+				//WeatherData.sensorStatus = true;
 			}
 		});
 		offButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				label.setText("");
-				WeatherData.sensorStatus = false;
+				displayComm.onOffSensor(false);
+				//WeatherData.sensorStatus = false;
 			}
 		});
 	}
+	
+	public void giveWeather(WeatherData object) {
+		displayComm.giveWeather(object);
+	}
+	
+	public void giveForecast(String s) {
+		forecast.setText(s);
+	}
 
-	@Override
+	/* @Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (WeatherData.getSensorStatus() == true) {
 			/* timer.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent evt) {
+				@Override			public void actionPerformed(ActionEvent evt) {
 					label.setText(WeatherData.toString());
 				}
-			}); */
+			}); 
 			WeatherData.timer.start();
 		}
 		else {
 			WeatherData.timer.stop();
 			label.setText("Sensor is off");
 		}
-	} 
-	
-}
-
+	} */
 	
 }

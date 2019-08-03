@@ -1,4 +1,5 @@
 import java.util.TimerTask;
+import sensor.SensorCommunication;
 
 public class Running extends TimerTask {
 	

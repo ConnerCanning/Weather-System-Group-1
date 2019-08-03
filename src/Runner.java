@@ -1,13 +1,17 @@
 import java.util.Timer;
-import java.util.TimerTask;
+
+import gui.Display;
+import gui.DisplayCommunications;
+import tower.TowerCommunication;
+import sensor.SensorCommunication;
 
 public class Runner {
 
 	public static void main(String[] args) {
 		
 		// instantiate tower and display
-		TowerCommunication tc = new TowerCommunication();
-		DisplayCommunication dc = new DisplayCommunication();
+		DisplayCommunications dc = new DisplayCommunications(new Display());
+		TowerCommunication tc = new TowerCommunication(dc);
 		
 		// with these we can instantiate weather sensor
 		SensorCommunication sc = new SensorCommunication(tc, dc);

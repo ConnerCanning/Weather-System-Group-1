@@ -1,28 +1,20 @@
 package tower;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.io.PrintStream;
-
-import gui.Display;
+import gui.DisplayCommunications;
 import sensor.WeatherData;
 
 public class TowerCommunication {
 	
     
-	private final DisplayCommunication myDisplay;
+	private final DisplayCommunications myDisplay;
     
 	
 	private final TowerForecast myForecast;
 	
 	private final TowerArchive myArchive;
     
-    public TowerCommunication() {
-    	
-    	
+    public TowerCommunication(DisplayCommunications dc) {
     	myArchive = new TowerArchive();
-    	myDisplay = new DisplayCommunication();
+    	myDisplay = dc;
     	myForecast = new TowerForecast();
     }
     

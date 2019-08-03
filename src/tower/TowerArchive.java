@@ -10,7 +10,7 @@ import sensor.WeatherData;
  * @author Justin
  *
  */
-public class TowerArchive {
+public class TowerArchive implements WeatherConsumer {
 	private PrintStream output;
 	
 	public TowerArchive(PrintStream thePrintStream) {

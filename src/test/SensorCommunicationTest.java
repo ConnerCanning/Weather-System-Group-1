@@ -18,7 +18,7 @@ public class SensorCommunicationTest {
 	@Test
 	public void testSensorCommunicationStatusOutput() {
 		
-		TowerCommunication tc = new TowerCommunication();
+		TowerCommunication tc = new TowerCommunication( new DisplayCommunications( new Display()));
 		
 		SensorCommunication sensor = new SensorCommunication(tc);
 		
