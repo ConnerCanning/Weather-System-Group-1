@@ -19,7 +19,7 @@ public class Runner {
 		// now get the sensor to give readings every second
 		Timer time = new Timer();
 		Running run = new Running(sc);
-		time.schedule(run, 1000);
+		time.schedule(run, 1000, 1000);
 	}
 		
 }

@@ -57,6 +57,7 @@ public class Display extends JFrame {
 		panel.add(onButton);
 		panel.add(offButton);
 		panel.add(label);
+		label.setVisible(true);
 		panel.add(forecast);
 		add(panel, BorderLayout.CENTER);
 		add(onButton);
@@ -85,11 +86,13 @@ public class Display extends JFrame {
 	}
 	
 	public void giveWeather(WeatherData object) {
-		displayComm.giveWeather(object);
+		label.setText(object.toString());
+		label.setVisible(true);
 	}
 	
 	public void giveForecast(String s) {
 		forecast.setText(s);
+		forecast.setVisible(true);
 	}
 
 }
