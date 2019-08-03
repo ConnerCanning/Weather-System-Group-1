@@ -28,7 +28,7 @@ public class Display extends JFrame {
 	public JLabel windDirection;
 	public  JLabel forecast;
 	
-	Display()  {
+	public Display()  {
 		super("Weather Station");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(screenSize.width/4, screenSize.height/4);
