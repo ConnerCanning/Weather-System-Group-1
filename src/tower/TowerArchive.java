@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+import interfaces.WeatherConsumer;
 import sensor.WeatherData;
 
 /**

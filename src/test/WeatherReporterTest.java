@@ -1,4 +1,5 @@
 package test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -10,6 +11,8 @@ import java.util.Scanner;
 
 import org.junit.Test;
 
+import gui.Display;
+import gui.DisplayCommunications;
 import interfaces.WeatherReporter;
 import sensor.SensorCommunication;
 import sensor.WeatherData;
@@ -19,15 +22,16 @@ public class WeatherReporterTest {
 
 	@Test
 	public void test() throws FileNotFoundException {
-		
+
 		String outputFileName = "sensorCommunicationTest.txt";
 		PrintStream output = new PrintStream(new File(outputFileName));
 
-		TowerCommunication towerComm = new TowerCommunication(output);
-		WeatherReporter weatherReporter = new SensorCommunication(towerComm);
+		Display d = new Display();
+		DisplayCommunications dc = new DisplayCommunications(d);
+		TowerCommunication towerComm = new TowerCommunication(output, dc);
+		WeatherReporter weatherReporter = new SensorCommunication(towerComm, dc);
 
 		WeatherData wd = weatherReporter.getWeather();
-
 
 		try {
 			Scanner input = new Scanner(new File(outputFileName));

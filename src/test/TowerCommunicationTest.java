@@ -3,6 +3,10 @@ package test;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import gui.Display;
+import gui.DisplayCommunications;
+
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,12 +17,11 @@ import sensor.WeatherData;
 import tower.TowerArchive;
 import tower.TowerCommunication;
 
-public class TowerCommunicationTest {	
-	
+public class TowerCommunicationTest {
+
 	/**
-	 * This test determines if the weatherdata object 
-	 * that is passed as an argument to the
-	 * towercommunication class correctly displays the output.
+	 * This test determines if the weatherdata object that is passed as an argument
+	 * to the towercommunication class correctly displays the output.
 	 * 
 	 * @throws FileNotFoundException if file is not found.
 	 */
@@ -27,8 +30,10 @@ public class TowerCommunicationTest {
 		String outputFileName = "towerCommunicationTest.txt";
 		PrintStream output = new PrintStream(new File(outputFileName));
 
-		TowerCommunication towerComm = new TowerCommunication(output);
-		
+		Display d = new Display();
+		DisplayCommunications dc = new DisplayCommunications(d);
+
+		TowerCommunication towerComm = new TowerCommunication(output, dc);
 
 		double temp = 75.5;
 		double rainAmount = 1.2;
@@ -38,9 +43,8 @@ public class TowerCommunicationTest {
 		double[] raw = { temp, humidity, rainAmount, windSpeed, windDirection };
 
 		WeatherData weather = new WeatherData(temp, humidity, rainAmount, windSpeed, windDirection, raw);
-		
-		
-		towerComm.giveWeather(weather); 
+
+		towerComm.giveWeather(weather);
 		try {
 			Scanner input = new Scanner(new File(outputFileName));
 			assertEquals(Arrays.toString(raw).replace("[", "").replace("]", ""), input.nextLine());
